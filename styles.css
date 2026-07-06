@@ -1,0 +1,398 @@
+/* ==========================================================================
+   Extractor de Paletas — Sistema de diseño de marca BenaviDev
+   Tema oscuro con acento verde Mint. Idéntico en estilo a la app de escritorio.
+   ========================================================================== */
+:root {
+  --bg:          #0e1311;
+  --surface:     #151d18;
+  --surface2:    #1b2620;
+  --border:      #26342b;
+  --border-hi:   #3f6a45;
+  --text:        #e8efe9;
+  --dim:         #8a978d;
+  --accent:      #6fbf4f;
+  --accent-dark: #3b7a2a;
+  --accent-soft: #8fd96f;
+  --danger:      #d16a6a;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "Ubuntu", "Segoe UI", "Cantarell", sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Cabecera de marca ---------- */
+.topbar {
+  background-color: #121a15;
+  border-bottom: 1px solid var(--border);
+  padding: 18px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.topbar-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.logo {
+  border-radius: 12px;
+  display: block;
+}
+.app-title {
+  color: #ffffff;
+  font-size: 21px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+.app-subtitle {
+  color: var(--dim);
+  font-size: 12px;
+  margin: 2px 0 0;
+}
+.brand {
+  color: var(--accent-soft);
+  font-weight: 700;
+}
+.sep { margin: 0 6px; opacity: 0.6; }
+
+/* ---------- Contenedor ---------- */
+.content {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---------- Tarjetas ---------- */
+.card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+}
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.card-title {
+  color: var(--dim);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+}
+.file-name {
+  color: var(--dim);
+  font-size: 12px;
+  max-width: 55%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- Zona de arrastre ---------- */
+.hero {
+  background-color: var(--surface);
+  border: 2px dashed var(--border-hi);
+  border-radius: 18px;
+  padding: 44px 30px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color .15s ease, border-color .15s ease;
+  color: var(--accent);
+}
+.hero:hover, .hero:focus {
+  background-color: var(--surface2);
+  border-color: var(--accent);
+  outline: none;
+}
+.hero.dragover {
+  background-color: var(--surface2);
+  border-color: var(--accent-soft);
+}
+.hero-icon { color: var(--accent); }
+.hero-text {
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 700;
+  margin: 10px 0 2px;
+}
+.hero-sub {
+  color: var(--dim);
+  font-size: 12px;
+  margin: 0;
+}
+
+/* ---------- Vista previa ---------- */
+.preview-frame {
+  background-color: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+#previewImg {
+  max-height: 260px;
+  max-width: 100%;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+/* ---------- Opciones ---------- */
+.options {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.opt-label {
+  min-width: 150px;
+  font-weight: 500;
+}
+.select, .input {
+  background-color: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 11px 13px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  flex: 1;
+}
+.select:focus, .input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.select { cursor: pointer; }
+
+/* ---------- Botones ---------- */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background-color: var(--surface2);
+  color: var(--text);
+  font-weight: 500;
+  padding: 9px 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color .15s ease, border-color .15s ease, opacity .15s ease;
+}
+button:hover:not(:disabled) {
+  background-color: #223026;
+  border-color: var(--border-hi);
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.ghost { background-color: transparent; }
+.ghost svg { color: var(--accent); }
+.actions { display: flex; gap: 8px; }
+
+.primary {
+  width: 100%;
+  background-image: linear-gradient(100deg, var(--accent-dark) 0%, var(--accent) 100%);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 15px 20px;
+  border-radius: 14px;
+  border: none;
+}
+.primary:hover:not(:disabled) {
+  background-image: linear-gradient(100deg, #458f32 0%, #7ccf5c 100%);
+}
+.primary:disabled {
+  background-image: none;
+  background-color: var(--surface2);
+  color: #56655b;
+}
+.primary svg { color: #ffffff; }
+
+/* ---------- Barra de progreso ---------- */
+.progress-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px;
+}
+.progress-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.status { font-size: 13px; font-weight: 500; }
+.percent { color: var(--accent-soft); font-size: 13px; font-weight: 700; }
+.progress-track {
+  background-color: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  height: 16px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background-image: linear-gradient(90deg, var(--accent-dark), var(--accent));
+  border-radius: 10px;
+  transition: width .2s ease;
+}
+.progress-bar.indeterminate {
+  width: 35% !important;
+  animation: slide 1s infinite ease-in-out;
+}
+@keyframes slide {
+  0%   { margin-left: -35%; }
+  100% { margin-left: 100%; }
+}
+
+/* ---------- Paleta ---------- */
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.palette-grid.cols-6 { grid-template-columns: repeat(6, 1fr); }
+.palette-grid.cols-8 { grid-template-columns: repeat(8, 1fr); }
+
+.swatch {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  min-height: 130px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  cursor: pointer;
+  position: relative;
+  transition: border-color .15s ease, transform .1s ease;
+  overflow: hidden;
+}
+.swatch:hover { border-color: var(--accent-soft); transform: translateY(-2px); }
+.swatch.compact { min-height: 96px; padding: 10px; }
+.swatch.flash { border: 2px solid var(--accent-soft); }
+.swatch-hex { font-size: 15px; font-weight: 700; }
+.swatch.compact .swatch-hex { font-size: 13px; }
+.swatch-rgb { font-size: 12px; font-weight: 500; opacity: 0.95; }
+.swatch-pct { font-size: 11px; font-weight: 700; opacity: 0.8; margin-top: 1px; }
+.swatch.compact .swatch-rgb, .swatch.compact .swatch-pct { font-size: 10px; }
+
+.empty-hint {
+  color: #55645a;
+  font-size: 13px;
+  text-align: center;
+  padding: 26px 0;
+  margin: 0;
+}
+
+.foot {
+  color: var(--dim);
+  font-size: 12px;
+  text-align: center;
+  padding: 8px 0 20px;
+  line-height: 1.6;
+}
+
+/* ---------- Diálogo de exportación ---------- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+/* El atributo [hidden] debe ganar al display:flex de .overlay (si no, el
+   diálogo quedaría siempre visible oscureciendo la app). */
+.overlay[hidden] {
+  display: none;
+}
+.dialog {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.dialog-title {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+.dlg-label {
+  color: var(--dim);
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 8px;
+}
+.name-row { display: flex; align-items: center; gap: 8px; }
+.ext-label { color: var(--dim); font-size: 13px; }
+.dialog-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+.dialog-actions .ghost { flex: 0 0 auto; }
+.dialog-actions .primary { flex: 1; width: auto; }
+
+/* ---------- Toast ---------- */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--surface2);
+  border: 1px solid var(--border-hi);
+  color: var(--text);
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 200;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  animation: toastIn .2s ease;
+}
+.toast.error { border-color: var(--danger); }
+@keyframes toastIn {
+  from { opacity: 0; transform: translate(-50%, 10px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 640px) {
+  .palette-grid,
+  .palette-grid.cols-6,
+  .palette-grid.cols-8 { grid-template-columns: repeat(2, 1fr); }
+  .options { flex-direction: column; align-items: stretch; }
+  .opt-label { min-width: 0; }
+  .app-title { font-size: 18px; }
+}

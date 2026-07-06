@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Extractor de Paletas — BenaviDev</title>
+  <meta name="description" content="Extrae la paleta de colores dominantes de cualquier imagen. Por BenaviDev.">
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- ---------- Cabecera de marca ---------- -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <img class="logo" src="logo.svg" alt="Logo BenaviDev" width="48" height="48">
+      <div class="title-block">
+        <h1 class="app-title">Extractor de Paletas</h1>
+        <p class="app-subtitle">
+          por <span class="brand">BenaviDev</span>
+          <span class="sep">·</span> Colores dominantes de tus imágenes
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+    <!-- ---------- Zona de carga / arrastre ---------- -->
+    <section id="dropzone" class="hero" tabindex="0" role="button"
+             aria-label="Arrastra o haz clic para cargar una imagen">
+      <svg class="hero-icon" viewBox="0 0 24 24" width="46" height="46" aria-hidden="true">
+        <path fill="currentColor" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4h2v4h14v-4h2zM12 3l5 5h-3v6h-4V8H7l5-5z"/>
+      </svg>
+      <p class="hero-text">Arrastra una imagen aquí</p>
+      <p class="hero-sub">o haz clic para seleccionarla</p>
+      <input type="file" id="fileInput" accept="image/*" hidden>
+    </section>
+
+    <!-- ---------- Vista previa ---------- -->
+    <section class="card" id="previewCard" hidden>
+      <div class="card-head">
+        <span class="card-title">IMAGEN CARGADA</span>
+        <span class="file-name" id="fileName"></span>
+      </div>
+      <div class="preview-frame">
+        <img id="previewImg" alt="Vista previa de la imagen cargada">
+      </div>
+    </section>
+
+    <!-- ---------- Opciones ---------- -->
+    <section class="card">
+      <span class="card-title">OPCIONES</span>
+      <div class="options">
+        <label class="opt-label" for="countSelect">Número de colores</label>
+        <select id="countSelect" class="select">
+          <option value="4">4</option>
+          <option value="6" selected>6</option>
+          <option value="8">8</option>
+          <option value="12">12</option>
+          <option value="16">16</option>
+          <option value="24">24</option>
+          <option value="32">32</option>
+          <option value="48">48</option>
+          <option value="64">64</option>
+        </select>
+      </div>
+      <button id="extractBtn" class="primary" disabled>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <path fill="currentColor" d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/>
+        </svg>
+        <span>Extraer paleta</span>
+      </button>
+    </section>
+
+    <!-- ---------- Progreso ---------- -->
+    <section class="progress-card">
+      <div class="progress-head">
+        <span class="status" id="statusLabel">Carga una imagen para empezar</span>
+        <span class="percent" id="percentLabel"></span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </section>
+
+    <!-- ---------- Paleta ---------- -->
+    <section class="card">
+      <div class="card-head">
+        <span class="card-title">PALETA EXTRAÍDA</span>
+        <div class="actions">
+          <button id="copyAllBtn" class="ghost" disabled>
+            <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">
+              <path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/>
+            </svg>
+            <span>Copiar todo</span>
+          </button>
+          <button id="exportBtn" class="ghost" disabled>
+            <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">
+              <path fill="currentColor" d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+            </svg>
+            <span>Exportar</span>
+          </button>
+        </div>
+      </div>
+      <div id="paletteGrid" class="palette-grid"></div>
+      <p id="emptyPalette" class="empty-hint">La paleta aparecerá aquí</p>
+    </section>
+
+    <footer class="foot">
+      Hecho por <span class="brand">BenaviDev</span> · Todo el procesamiento ocurre en tu navegador; tus imágenes nunca se suben a ningún servidor.
+    </footer>
+  </main>
+
+  <!-- ---------- Diálogo de exportación ---------- -->
+  <div id="exportOverlay" class="overlay" hidden>
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+      <h2 id="dlgTitle" class="dialog-title">Exportar paleta</h2>
+
+      <label class="dlg-label" for="formatSelect">Formato de exportación</label>
+      <select id="formatSelect" class="select">
+        <option value="png">Imagen con muestras (.png)</option>
+        <option value="json">Datos estructurados (.json)</option>
+        <option value="txt">Texto plano (.txt)</option>
+      </select>
+
+      <label class="dlg-label" for="nameInput">Nombre del archivo</label>
+      <div class="name-row">
+        <input type="text" id="nameInput" class="input" value="paleta">
+        <span class="ext-label" id="extLabel">.png</span>
+      </div>
+
+      <div class="dialog-actions">
+        <button id="cancelExport" class="ghost">Cancelar</button>
+        <button id="confirmExport" class="primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Aviso flotante (toast) -->
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
